@@ -18,7 +18,8 @@ CREATE TABLE tbl_Livros(
     ID_Livro_PK VARCHAR(10) NOT NULL PRIMARY KEY,
     Titulo VARCHAR(100),
     Autor VARCHAR(100),
-    Ano VARCHAR(4)
+    Ano VARCHAR(4),
+    Disponibilidade INTEGER
 );
 
 CREATE TABLE tbl_Emprestimos(
