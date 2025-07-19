@@ -16,7 +16,7 @@ Database conectar_banco(const char *caminho_db) {
 }
 
 // Desconectar do DB
-void desconectar_banc(Database *db) {
+void desconectar_banco(Database *db) {
     if (db->db) {
         sqlite3_close(db->db);
         db->db = NULL;
