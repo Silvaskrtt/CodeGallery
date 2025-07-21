@@ -11,5 +11,6 @@ typedef struct {
 
 Database conectar_banco(const char *caminho_db);
 void desconectar_banco(Database *db);
+char* gerarIDPersonalizado(sqlite3 *db, const char *prefixo, const char *tabela, const char *colunaID, int totalDigitos);
 
 #endif
