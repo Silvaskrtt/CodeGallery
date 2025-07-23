@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 
 #define TAM_MAX 100
 
@@ -11,6 +12,9 @@ void removerNovaLinha(char *str) {
 }
 
 int main() {
+
+    SetConsoleOutputCP(CP_UTF8); // Suporte a UTF-8 no terminal do Windows
+
     char nome[TAM_MAX];
     char sobrenome[TAM_MAX];
     char cpf[TAM_MAX];
@@ -101,9 +105,9 @@ int main() {
     }
 
     char *idEmp = regEmpLivro(db.db, data_emprestimo, data_devolucao, id_livro_fk, id_usuario_fk);
-    if (idLivro) {
-        printf("Livro emprestado com sucesso. ID: %s\n", idLivro);
-        free(idLivro);
+    if (idEmp) {
+        printf("Livro emprestado com ID: %s\n", idEmp);
+        free(idEmp);
     } else {
         fprintf(stderr, "Erro ao emprestar o livro.\n");
     }

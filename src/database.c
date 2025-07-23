@@ -2,9 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <windows.h>
 
 // Conectar ao DB
 Database conectaDB(const char *caminho_db) {
+    SetConsoleOutputCP(CP_UTF8); // Suporte a UTF-8 no terminal do Windows
+
     Database db = {NULL, 0};
 
     if (sqlite3_open(caminho_db, &db.db) != SQLITE_OK) {
