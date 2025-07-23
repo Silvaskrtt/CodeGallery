@@ -1,15 +1,32 @@
+# Compilador e flags
 CC = gcc
 CFLAGS = -Iinclude -Wall -std=c11
 LDFLAGS = -lsqlite3
 
-SRC = src/database.c src/main.c
-OBJ = $(SRC:.c=.o)
-EXEC = meu_projeto
+# Arquivos fonte
+SRC = src/database.c src/main.c src/models.c
 
+# Diretórios
+BUILD_DIR = build
+OBJ_DIR = $(BUILD_DIR)/obj
+EXEC = $(BUILD_DIR)/CodeGallery.exe
+
+# Geração dos arquivos .o dentro de build/obj/
+OBJ = $(patsubst src/%.c, $(OBJ_DIR)/%.o, $(SRC))
+
+# Regra padrão
 all: $(EXEC)
 
+# Regra para gerar o executável
 $(EXEC): $(OBJ)
+	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
+# Regra para compilar arquivos .c para .o no diretório obj/
+$(OBJ_DIR)/%.o: src/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Limpar arquivos
 clean:
-	rm -f $(OBJ) $(EXEC)
+	rm -rf $(BUILD_DIR)
