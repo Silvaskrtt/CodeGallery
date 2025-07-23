@@ -152,7 +152,7 @@ char* addLivro(sqlite3 *db, const char *titulo, const char *autor, const char *a
 
 char* regEmpLivro(sqlite3 *db, const char *data_emprestimo, const char *data_devolucao, const char *id_livro_fk, const char *id_usuario_fk) {
     if (!db || !data_emprestimo ||!data_devolucao || !id_livro_fk || !id_usuario_fk || strlen(data_emprestimo) == 0 || strlen(data_devolucao) == 0 || strlen(id_livro_fk) == 0 || strlen(id_usuario_fk) == 0) {
-        fprintf(stderr, "Parâmetros inválidos para registrar o empréstimo do livro com ID: s%\n", id_livro_fk);
+        fprintf(stderr, "Parâmetros inválidos para registrar o empréstimo do livro com ID: %s\n", id_livro_fk);
         return NULL;
     }
 
