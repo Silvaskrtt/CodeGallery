@@ -105,6 +105,27 @@ char* cadUser(sqlite3 *db, const char *nome, const char *sobrenome, const char *
     return novoID;
 }
 
+void listUser(sqlite3 *db) {
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT ID_Usuario_PK, Nome, Sobrenome, CPF FROM tbl_Usuarios;";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
+        fprintf(stderr, "Erro ao preparar a consulta: %s\n", sqlite3_errmsg(db));
+        return;
+    }
+
+    printf("\n=== Lista de Usuários ===\n");
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        const char *id = (const char *)sqlite3_column_text(stmt, 0);
+        const char *nome = (const char *)sqlite3_column_text(stmt, 1);
+        const char *sobrenome = (const char *)sqlite3_column_text(stmt, 2);
+        const char *cpf = (const char *)sqlite3_column_text(stmt, 3);
+        printf("ID: %s | Nome: %s %s | CPF: %s\n", id, nome, sobrenome, cpf);
+    }
+
+    sqlite3_finalize(stmt);
+}
+
 // --------- Funções da tbl_Livros ---------
 
 char* addLivro(sqlite3 *db, const char *titulo, const char *autor, const char *ano, int disponibilidade) {
@@ -148,7 +169,7 @@ char* addLivro(sqlite3 *db, const char *titulo, const char *autor, const char *a
     return novoID;
 }
 
-// --------- Funções da tbl_Livros ---------
+// --------- Funções da tbl_Emprestimo ---------
 
 char* regEmpLivro(sqlite3 *db, const char *data_emprestimo, const char *data_devolucao, const char *id_livro_fk, const char *id_usuario_fk) {
     if (!db || !data_emprestimo ||!data_devolucao || !id_livro_fk || !id_usuario_fk || strlen(data_emprestimo) == 0 || strlen(data_devolucao) == 0 || strlen(id_livro_fk) == 0 || strlen(id_usuario_fk) == 0) {

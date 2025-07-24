@@ -22,6 +22,8 @@ char* genIdPers(sqlite3 *db, const char *prefixo, const char *tabela, const char
 
 char* cadUser(sqlite3 *db, const char *nome, const char *sobrenome, const char *cpf);
 
+void listUser(sqlite3 *db);
+
 // --------- Funções da tbl_Livros ---------
 
 char* addLivro(sqlite3 *db, const char *titulo, const char *autor, const char *ano, int disponibilidade);

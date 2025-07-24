@@ -112,6 +112,8 @@ int main() {
         fprintf(stderr, "Erro ao emprestar o livro.\n");
     }
 
+    listUser(db.db);
+
     discDB(&db);
     return 0;
 }
