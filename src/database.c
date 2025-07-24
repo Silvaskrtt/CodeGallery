@@ -211,3 +211,56 @@ char* regEmpLivro(sqlite3 *db, const char *data_emprestimo, const char *data_dev
     printf("Empréstimo registrado com ID: %s\n", novoID);
     return novoID;
 }
+
+void consultEmp(sqlite3 *db) {
+    const char *sql =
+        "SELECT "
+        "    tbl_Emprestimos.ID_Emprestimo_PK, "
+        "    tbl_Emprestimos.ID_Livro_FK, "
+        "    tbl_Emprestimos.ID_Usuario_FK, "
+        "    tbl_Livros.Titulo, "
+        "    tbl_Usuarios.Nome, "
+        "    tbl_Usuarios.Sobrenome "
+        "FROM tbl_Emprestimos "
+        "INNER JOIN tbl_Livros "
+        "    ON tbl_Emprestimos.ID_Livro_FK = tbl_Livros.ID_Livro_PK "
+        "INNER JOIN tbl_Usuarios "
+        "    ON tbl_Emprestimos.ID_Usuario_FK = tbl_Usuarios.ID_Usuario_PK;";
+
+    sqlite3_stmt *stmt = NULL;
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Erro ao preparar a consulta: %s\n", sqlite3_errmsg(db));
+        return;
+    }
+
+    printf("---------------------------------------------------------------------------------------------\n");
+    printf("| %-12s | %-8s | %-10s | %-30s | %-12s | %-12s |\n",
+           "ID Emprestimo", "ID Livro", "ID Usuário", "Título", "Nome", "Sobrenome");
+    printf("---------------------------------------------------------------------------------------------\n");
+
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        const unsigned char *id_emprestimo_pk = sqlite3_column_text(stmt, 0);
+        const unsigned char *id_livro_fk      = sqlite3_column_text(stmt, 1);
+        const unsigned char *id_usuario_fk    = sqlite3_column_text(stmt, 2);
+        const unsigned char *titulo           = sqlite3_column_text(stmt, 3);
+        const unsigned char *nome             = sqlite3_column_text(stmt, 4);
+        const unsigned char *sobrenome        = sqlite3_column_text(stmt, 5);
+
+        printf("| %-12s | %-8s | %-10s | %-30s | %-12s | %-12s |\n",
+               id_emprestimo_pk ? (const char*)id_emprestimo_pk : "",
+               id_livro_fk ? (const char*)id_livro_fk : "",
+               id_usuario_fk ? (const char*)id_usuario_fk : "",
+               titulo ? (const char*)titulo : "",
+               nome ? (const char*)nome : "",
+               sobrenome ? (const char*)sobrenome : "");
+    }
+
+    printf("---------------------------------------------------------------------------------------------\n");
+
+    if (rc != SQLITE_DONE) {
+        fprintf(stderr, "Erro ao percorrer resultados: %s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_finalize(stmt);
+}

@@ -113,6 +113,8 @@ int main() {
     }
 
     listUser(db.db);
+    
+    consultEmp(db.db);
 
     discDB(&db);
     return 0;
