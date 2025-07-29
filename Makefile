@@ -1,10 +1,10 @@
 # Compilador e flags
 CC = gcc
-CFLAGS = -Iinclude -Wall -std=c11
-LDFLAGS = -lsqlite3
+CFLAGS = -Iinclude -Wall -std=c11 `pkg-config --cflags gtk4`
+LDFLAGS = -lsqlite3 `pkg-config --libs gtk4`
 
 # Arquivos fonte
-SRC = src/database.c src/main.c src/models.c
+SRC = src/database.c src/main.c src/models.c src/gui.c
 
 # Diretórios
 BUILD_DIR = build
@@ -20,7 +20,7 @@ all: $(EXEC)
 # Regra para gerar o executável
 $(EXEC): $(OBJ)
 	@mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 # Regra para compilar arquivos .c para .o no diretório obj/
 $(OBJ_DIR)/%.o: src/%.c
