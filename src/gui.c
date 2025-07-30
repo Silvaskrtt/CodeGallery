@@ -1,52 +1,47 @@
 #include <gtk/gtk.h>
+#include <glib/gstdio.h>
 
 static void
 activate (GtkApplication *app,
           gpointer        user_data)
 {
-  GtkWidget *window;
-  GtkWidget *grid;
-  GtkWidget *button;
+  // Instancia GtkBuilder e carrega o UI
+  GtkBuilder *builder = gtk_builder_new ();
+  GError *error = NULL;
 
-  // Criando uma nova Janela, setando o nome e tamanho da janela!
-  window = gtk_application_window_new (app);
-  gtk_window_set_title (GTK_WINDOW (window), "BookStack");
-  gtk_window_set_default_size (GTK_WINDOW (window), 1320, 720);
-  gtk_window_present (GTK_WINDOW (window));
+  gtk_builder_add_from_file(builder, "src/builder.ui", &error);
+  if (error) {
+    g_error("Erro ao carregar builder.ui: %s", error->message);
+  }
 
-  // Cotainer que irá agrupar os botoes do sistema
-  grid = gtk_grid_new ();
+  GObject *window = gtk_builder_get_object (builder, "window");
+  if (!GTK_IS_WINDOW(window)) {
+    g_error("Falha ao carregar a janela principal.");
+  }
+  gtk_window_set_application (GTK_WINDOW (window), app);
 
-  gtk_window_set_child (GTK_WINDOW (window), grid);
+  GObject *button = gtk_builder_get_object (builder, "usuarios");
+  if (!GTK_IS_BUTTON(button)) {
+    g_warning("Botão 'usuarios' não encontrado.");
+  }
 
-  button = gtk_button_new_with_label ("Usúarios");
+  gtk_widget_set_visible (GTK_WIDGET (window), TRUE);
 
-  // configurando a posiçao do botao
-  gtk_grid_attach (GTK_GRID (grid), button, 0,0,1,1);
-
-  gtk_window_set_child (GTK_WINDOW (window), grid);
-
-  button = gtk_button_new_with_label ("Livros");
-
-  gtk_grid_attach (GTK_GRID (grid), button, 1,0,1,1);
-
-  gtk_window_set_child (GTK_WINDOW (window), grid);
-
-  button = gtk_button_new_with_label ("Empréstimos");
-
-  gtk_grid_attach (GTK_GRID (grid), button, 2,0,1,1);
+  g_object_unref (builder);
 }
 
 int
 main (int    argc,
       char **argv)
 {
-  GtkApplication *app;
-  int status;
+  #ifdef GTK_SRCDIR
+    g_chdir (GTK_SRCDIR);
+  #endif
 
-  app = gtk_application_new ("org.gtk.example", G_APPLICATION_DEFAULT_FLAGS);
+  GtkApplication *app = gtk_application_new ("org.gtk.example", G_APPLICATION_DEFAULT_FLAGS);
   g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
-  status = g_application_run (G_APPLICATION (app), argc, argv);
+  
+  int status = g_application_run (G_APPLICATION (app), argc, argv);
   g_object_unref (app);
 
   return status;
