@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkWindow" id="main_window">
+    <property name="default-width">980</property>
+    <property name="default-height">506</property>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">30</property>
+        <property name="margin-top">40</property>
+        <property name="halign">center</property>
+        <property name="valign">center</property>
+        <child>
+          <object class="GtkBox">
+            <property name="spacing">20</property>
+            <style>
+              <class name="menu-bar"/>
+            </style>
+            <child>
+              <object class="GtkButton">
+                <property name="label">Usuários</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="livros">
+                <property name="label">Livros</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton">
+                <property name="label">Empréstimos</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="label">Bem Vindo Ao BookStack !</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+              <attribute name="scale" value="1.5"/>
+            </attributes>
+            <property name="halign">center</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="label">Organização que compila conhecimento.</property>
+            <attributes>
+              <attribute name="style" value="italic"/>
+            </attributes>
+            <property name="halign">center</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

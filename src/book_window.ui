@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkWindow" id="book_window">
+    <property name="default-width">857</property>
+    <property name="default-height">400</property>
+    <child>
+      <object class="GtkOverlay">
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">20</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <child>
+              <object class="GtkFrame">
+                <property name="label">Cadastro de Livro</property>
+                <style>
+                  <class name="book-form"/>
+                </style>
+                <child>
+                  <object class="GtkGrid">
+                    <property name="column-spacing">10</property>
+                    <property name="row-spacing">10</property>
+                    <property name="margin-start">10</property>
+                    <property name="margin-end">10</property>
+                    <property name="margin-top">10</property>
+                    <property name="margin-bottom">10</property>
+                    
+                    <child>
+                      <object class="GtkLabel" id="title_label">
+                        <property name="label">Título:</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkEntry" id="title_entry">
+                        <property name="hexpand">true</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">0</property>
+                          <property name="column-span">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkLabel" id="year_label">
+                        <property name="label">Ano:</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
+                        <layout>
+                          <property name="column">2</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkEntry" id="year_entry">
+                        <property name="hexpand">true</property>
+                        <layout>
+                          <property name="column">3</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkLabel" id="author_label">
+                        <property name="label">Autor:</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkEntry" id="author_entry">
+                        <property name="hexpand">true</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkLabel" id="availability_label">
+                        <property name="label">Disponibilidade:</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
+                        <layout>
+                          <property name="column">2</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkEntry" id="availability_entry">
+                        <property name="hexpand">true</property>
+                        <layout>
+                          <property name="column">3</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child type="overlay">
+          <object class="GtkButton" id="back_button">
+            <property name="icon-name">go-previous-symbolic</property>
+            <property name="halign">start</property>
+            <property name="valign">start</property>
+            <property name="margin-start">10</property>
+            <property name="margin-top">10</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
