@@ -97,8 +97,8 @@
                     </child>
 
                     <child>
-                      <object class="GtkButton">
-                        <property name="label">Cadastrar</property>
+                      <object class="GtkButton" id="cadastrar_usuario_btn">
+                        <property name="label">Cadastrar Usuário</property>
                       </object>
                     </child>
 
