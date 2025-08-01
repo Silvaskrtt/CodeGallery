@@ -96,6 +96,12 @@
                       </object>
                     </child>
 
+                    <child>
+                      <object class="GtkButton">
+                        <property name="label">Cadastrar</property>
+                      </object>
+                    </child>
+
                   </object>
                 </child>
               </object>
