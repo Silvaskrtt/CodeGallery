@@ -119,8 +119,8 @@
                     </child>
 
                     <child>
-                      <object class="GtkButton">
-                        <property name="label">Cadastrar</property>
+                      <object class="GtkButton" id="cadastrar_livro_btn">
+                        <property name="label">Cadastrar Livro</property>
                       </object>
                     </child>
                     
