@@ -3,6 +3,7 @@
   <requires lib="gtk" version="4.0"/>
 
   <object class="GtkWindow" id="main_window">
+    <property name="title">BookStack</property>
     <property name="default-width">980</property>
     <property name="default-height">506</property>
     <child>
@@ -19,7 +20,7 @@
               <class name="menu-bar"/>
             </style>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="usuarios">
                 <property name="label">Usuários</property>
               </object>
             </child>
@@ -29,7 +30,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="emprestimo">
                 <property name="label">Empréstimos</property>
               </object>
             </child>
