@@ -80,7 +80,7 @@ int main() {
     fgets(id_usuario_fk, sizeof(id_usuario_fk), stdin);
     removerNovaLinha(id_usuario_fk);
 
-    const char *caminho_db = "database/CODEGALLERY.db";
+    const char *caminho_db = "database/BOOKSTACK.db";
     Database db = conectaDB(caminho_db);
 
     if (db.status != 1) {
