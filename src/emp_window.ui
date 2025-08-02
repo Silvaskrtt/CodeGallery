@@ -30,7 +30,7 @@
                     <property name="margin-bottom">10</property>
                     
                     <child>
-                      <object class="GtkLabel" id="emp_label">
+                      <object class="GtkLabel" id="dtEmp_label">
                         <property name="label">Data de Empréstimo:</property>
                         <property name="halign">start</property>
                         <property name="valign">center</property>
@@ -42,7 +42,7 @@
                     </child>
                     
                     <child>
-                      <object class="GtkEntry" id="emp_entry">
+                      <object class="GtkEntry" id="dtEmp_entry">
                         <property name="hexpand">true</property>
                         <layout>
                           <property name="column">1</property>
@@ -53,7 +53,7 @@
                     </child>
                     
                     <child>
-                      <object class="GtkLabel" id="dtdev_label">
+                      <object class="GtkLabel" id="dtDev_label">
                         <property name="label">Data de Devolução:</property>
                         <property name="halign">start</property>
                         <property name="valign">center</property>
@@ -65,7 +65,7 @@
                     </child>
                     
                     <child>
-                      <object class="GtkEntry" id="dtdev_entry">
+                      <object class="GtkEntry" id="dtDev_entry">
                         <property name="hexpand">true</property>
                         <layout>
                           <property name="column">3</property>
