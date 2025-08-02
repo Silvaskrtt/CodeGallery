@@ -2,6 +2,8 @@
 #include <glib/gstdio.h>
 #include <database.h>
 
+// --------- Funções Usúarios para conexão do GTK com DB ---------
+
 // Função callback para o botão "Usuários"
 static void on_cadastrar_usuario(GtkButton *button, gpointer user_data) {
     GtkBuilder *builder = GTK_BUILDER(user_data);
@@ -78,6 +80,54 @@ static void on_users_clicked(GtkButton *button, gpointer user_data) {
     gtk_window_present(users_window);
 }
 
+// --------- Funções Livros para conexão do GTK com DB ---------
+
+static void on_cadastrar_livros(GtkButton *button, gpointer user_data) {
+    GtkBuilder *builder = GTK_BUILDER(user_data);
+
+    GtkEntry *titulo_entry = GTK_ENTRY(gtk_builder_get_object(builder, "titulo_entry"));
+    GtkEntry *autor_entry = GTK_ENTRY(gtk_builder_get_object(builder, "autor_entry"));
+    GtkEntry *ano_entry = GTK_ENTRY(gtk_builder_get_object(builder, "ano_entry"));
+    GtkEntry *disponibilidade_entry = GTK_ENTRY(gtk_builder_get_object(builder, "disponibilidade_entry"));
+
+    if (!titulo_entry || !autor_entry || !ano_entry || !disponibilidade_entry) {
+        g_warning("Não foi possível obter todos os campos de entrada");
+        return;
+    }
+
+    const char *titulo = gtk_editable_get_text(GTK_EDITABLE(titulo_entry));
+    const char *autor = gtk_editable_get_text(GTK_EDITABLE(autor_entry));
+    const char *ano = gtk_editable_get_text(GTK_EDITABLE(ano_entry));
+    const char *disp_text = gtk_editable_get_text(GTK_EDITABLE(disponibilidade_entry));
+
+    if (!titulo || !autor || !ano || !disp_text) {
+        g_warning("Todos os campos devem ser preenchidos");
+        return;
+    }
+
+    Database db = conectaDB("database/CODEGALLERY.db");
+    if (db.status != 1) {
+        g_warning("Falha ao conectar ao banco de dados");
+        return;
+    }
+
+    int disp_int = atoi(disp_text);
+    char *idLivro = addLivro(db.db, titulo, autor, ano, disp_int);
+
+    if (idLivro) {
+        g_print("Livro cadastrado com ID: %s\n", idLivro);
+        free(idLivro);
+
+        gtk_editable_set_text(GTK_EDITABLE(titulo_entry), "");
+        gtk_editable_set_text(GTK_EDITABLE(autor_entry), "");
+        gtk_editable_set_text(GTK_EDITABLE(ano_entry), "");
+        gtk_editable_set_text(GTK_EDITABLE(disponibilidade_entry), "");
+    } else {
+        g_warning("Falha ao cadastrar livro");
+    }
+
+    discDB(&db);
+}
 
 // Função callback para o botão "Livros"
 static void on_livros_clicked(GtkButton *button, gpointer user_data) {
@@ -97,14 +147,70 @@ static void on_livros_clicked(GtkButton *button, gpointer user_data) {
         g_object_unref(builder);
         return;
     }
+    
+    // Mantém a referência do builder enquanto a janela existir
+    g_object_set_data_full(G_OBJECT(book_window), "builder", builder, (GDestroyNotify)g_object_unref);
+
+    GtkButton *cad_btn = GTK_BUTTON(gtk_builder_get_object(builder, "cadastrar_livro_btn"));
+    if (cad_btn) {
+        g_signal_connect(cad_btn, "clicked", G_CALLBACK(on_cadastrar_livros), builder);
+    }
 
     gtk_window_set_application(book_window, GTK_APPLICATION(user_data));
     gtk_window_present(book_window);
-
-    g_object_unref(builder);
 }
 
+// --------- Funções Emprestimo para conexão do GTK com DB ---------
+
 // Função callback para o botão "Empréstimos"
+static void on_cadastrar_emprestimo(GtkButton *button, gpointer user_data) {
+    GtkBuilder *builder = GTK_BUILDER(user_data);
+
+    // Verifica e obtém os campos de entrada
+    GtkEntry *dtEmp_entry = GTK_ENTRY(gtk_builder_get_object(builder, "dtEmp_entry"));
+    GtkEntry *dtDev_entry = GTK_ENTRY(gtk_builder_get_object(builder, "dtDev_entry"));
+    GtkEntry *idlivro_entry = GTK_ENTRY(gtk_builder_get_object(builder, "idlivro_entry"));
+    GtkEntry *iduser_entry = GTK_ENTRY(gtk_builder_get_object(builder, "iduser_entry"));
+
+    if (!dtEmp_entry || !dtDev_entry || !idlivro_entry || !iduser_entry) {
+        g_warning("Não foi possível obter todos os campos de entrada");
+        return;
+    }
+
+    const char *dtEmp = gtk_editable_get_text(GTK_EDITABLE(dtEmp_entry));
+    const char *dtDev = gtk_editable_get_text(GTK_EDITABLE(dtDev_entry));
+    const char *idlivro = gtk_editable_get_text(GTK_EDITABLE(idlivro_entry));
+    const char *iduser = gtk_editable_get_text(GTK_EDITABLE(iduser_entry));
+
+    // Verifica se os campos não estão vazios
+    if (!dtEmp || !dtDev || !idlivro || !iduser) {
+        g_warning("Todos os campos devem ser preenchidos");
+        return;
+    }
+
+    Database db = conectaDB("database/CODEGALLERY.db");
+    if (db.status != 1) {
+        g_warning("Falha ao conectar ao banco de dados");
+        return;
+    }
+
+    char *idEmp = regEmpLivro(db.db, dtEmp, dtDev, idlivro, iduser);
+    if (idEmp) {
+        g_print("Empréstimo cadastrado com ID: %s\n", idEmp);
+        free(idEmp);
+        
+        // Limpa os campos após cadastro
+        gtk_editable_set_text(GTK_EDITABLE(dtEmp_entry), "");
+        gtk_editable_set_text(GTK_EDITABLE(dtDev_entry), "");
+        gtk_editable_set_text(GTK_EDITABLE(idlivro_entry), "");
+        gtk_editable_set_text(GTK_EDITABLE(iduser_entry), "");
+    } else {
+        g_warning("Falha ao cadastrar usuário");
+    }
+
+    discDB(&db);
+}
+
 static void on_emp_clicked(GtkButton *button, gpointer user_data) {
     GtkBuilder *builder = gtk_builder_new();
     GError *error = NULL;
@@ -122,11 +228,17 @@ static void on_emp_clicked(GtkButton *button, gpointer user_data) {
         g_object_unref(builder);
         return;
     }
+    
+    // Mantém a referência do builder enquanto a janela existir
+    g_object_set_data_full(G_OBJECT(emp_window), "builder", builder, (GDestroyNotify)g_object_unref);
+
+    GtkButton *cad_btn = GTK_BUTTON(gtk_builder_get_object(builder, "cadastrar_emprestimo_btn"));
+    if (cad_btn) {
+        g_signal_connect(cad_btn, "clicked", G_CALLBACK(on_cadastrar_emprestimo), builder);
+    }
 
     gtk_window_set_application(emp_window, GTK_APPLICATION(user_data));
     gtk_window_present(emp_window);
-
-    g_object_unref(builder);
 }
 
 // Callback da aplicação
