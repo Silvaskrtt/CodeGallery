@@ -1,20 +1,24 @@
 #include "database.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string.h> 
 #include <windows.h>
 
-#define TAM_MAX 100
+#define TAM_MAX 100     // Define um tamanho máximo para as strings
 
+// Função para remover o '\n' do final das strings lidas com fgets
 void removerNovaLinha(char *str) {
-    size_t len = strlen(str);
-    if (len > 0 && str[len - 1] == '\n') str[len - 1] = '\0';
+    size_t len = strlen(str);                 // Obtém o tamanho da string
+    if (len > 0 && str[len - 1] == '\n')      // Verifica se o último caractere é '\n'
+        str[len - 1] = '\0';                  // Substitui por '\0' para encerrar a string corretamente
 }
 
 int main() {
 
-    SetConsoleOutputCP(CP_UTF8); // Suporte a UTF-8 no terminal do Windows
+    // Define que o console usará UTF-8 (para suportar acentos no Windows)
+    SetConsoleOutputCP(CP_UTF8);
 
+    // Declara variáveis para armazenar dados de usuário, livro e empréstimo
     char nome[TAM_MAX];
     char sobrenome[TAM_MAX];
     char cpf[TAM_MAX];
@@ -29,20 +33,22 @@ int main() {
     char id_livro_fk[TAM_MAX];
     char id_usuario_fk[TAM_MAX];
 
+    // ===== Cadastro de Usuário =====
     printf("=== Cadastro de Usuário ===\n");
 
     printf("Nome: ");
-    fgets(nome, sizeof(nome), stdin);
-    removerNovaLinha(nome);
+    fgets(nome, sizeof(nome), stdin);   // Lê o nome digitado
+    removerNovaLinha(nome);             // Remove o '\n'
 
     printf("Sobrenome: ");
-    fgets(sobrenome, sizeof(sobrenome), stdin);
+    fgets(sobrenome, sizeof(sobrenome), stdin);  
     removerNovaLinha(sobrenome);
 
     printf("CPF: ");
     fgets(cpf, sizeof(cpf), stdin);
     removerNovaLinha(cpf);
 
+    // ===== Cadastro de Livro =====
     printf("=== Cadastro de Livro ===\n");
 
     printf("Título: ");
@@ -60,8 +66,9 @@ int main() {
     printf("Disponibilidade (0 ou 1): ");
     fgets(disponibilidade, sizeof(disponibilidade), stdin);
     removerNovaLinha(disponibilidade);
-    int dispInt = atoi(disponibilidade);  // Conversão da string para int
+    int dispInt = atoi(disponibilidade);  // Converte string para inteiro (0 ou 1)
 
+    // ===== Cadastro de Empréstimo =====
     printf("=== Cadastro de Emprestimo ===\n");
 
     printf("Data Emprestimo: ");
@@ -80,23 +87,26 @@ int main() {
     fgets(id_usuario_fk, sizeof(id_usuario_fk), stdin);
     removerNovaLinha(id_usuario_fk);
 
-    const char *caminho_db = "database/BOOKSTACK.db";
-    Database db = conectaDB(caminho_db);
+    // ===== Conexão com o banco de dados =====
+    const char *caminho_db = "database/BOOKSTACK.db";  // Caminho para o banco SQLite
+    Database db = conectaDB(caminho_db);               // Abre a conexão
 
-    if (db.status != 1) {
+    if (db.status != 1) {  // Se a conexão falhou
         fprintf(stderr, "Erro ao conectar ao banco.\n");
-        return 1;
+        return 1;          // Encerra o programa
     }
 
-    char *idUsuario = cadUser(db.db, nome, sobrenome, cpf);
+    // ===== Inserir Usuário =====
+    char *idUsuario = cadUser(db.db, nome, sobrenome, cpf); // Cadastra no banco
     if (idUsuario) {
         printf("Usuário cadastrado com sucesso. ID: %s\n", idUsuario);
-        free(idUsuario);
+        free(idUsuario);  // Libera memória alocada pela função cadUser
     } else {
         fprintf(stderr, "Erro ao cadastrar usuário.\n");
     }
 
-    char *idLivro = addLivro(db.db, titulo, autor, ano, dispInt);
+    // ===== Inserir Livro =====
+    char *idLivro = addLivro(db.db, titulo, autor, ano, dispInt); // Cadastra no banco
     if (idLivro) {
         printf("Livro cadastrado com sucesso. ID: %s\n", idLivro);
         free(idLivro);
@@ -104,6 +114,7 @@ int main() {
         fprintf(stderr, "Erro ao cadastrar livro.\n");
     }
 
+    // ===== Registrar Empréstimo =====
     char *idEmp = regEmpLivro(db.db, data_emprestimo, data_devolucao, id_livro_fk, id_usuario_fk);
     if (idEmp) {
         printf("Livro emprestado com ID: %s\n", idEmp);
@@ -112,10 +123,14 @@ int main() {
         fprintf(stderr, "Erro ao emprestar o livro.\n");
     }
 
-    listUser(db.db);
-    
-    consultEmp(db.db);
+    // ===== Listar Usuários =====
+    listUser(db.db); // Mostra todos os usuários cadastrados
 
+    // ===== Consultar Empréstimos =====
+    consultEmp(db.db); // Mostra todos os empréstimos com join no banco
+
+    // ===== Fechar conexão com o banco =====
     discDB(&db);
-    return 0;
+
+    return 0; // Fim do programa
 }

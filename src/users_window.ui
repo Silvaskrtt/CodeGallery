@@ -1,49 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <!-- Requisito mínimo da biblioteca GTK versão 4.0 -->
   <requires lib="gtk" version="4.0"/>
 
+  <!-- Janela para cadastro de usuários -->
   <object class="GtkWindow" id="users_window">
-    <property name="title">Usuários</property>
-    <property name="default-width">857</property>
-    <property name="default-height">400</property>
+    <property name="title">Usuários</property> <!-- Título da janela -->
+    <property name="default-width">857</property> <!-- Largura padrão -->
+    <property name="default-height">400</property> <!-- Altura padrão -->
     <child>
+      <!-- Container de sobreposição (permite elementos flutuarem sobre o conteúdo principal) -->
       <object class="GtkOverlay">
         <child>
+          <!-- Caixa vertical para organizar elementos do formulário -->
           <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">20</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
+            <property name="orientation">vertical</property> <!-- Organização vertical -->
+            <property name="spacing">20</property> <!-- Espaço entre elementos -->
+            <property name="halign">center</property> <!-- Centraliza horizontalmente -->
+            <property name="valign">center</property> <!-- Centraliza verticalmente -->
             <child>
+              <!-- Moldura que agrupa o formulário -->
               <object class="GtkFrame">
-                <property name="label">Cadastro de Usuários</property>
+                <property name="label">Cadastro de Usuários</property> <!-- Título da moldura -->
                 <style>
-                  <class name="users-form"/>
+                  <class name="users-form"/> <!-- Classe CSS para personalização -->
                 </style>
                 <child>
+                  <!-- Grade para organização dos campos -->
                   <object class="GtkGrid">
-                    <property name="column-spacing">10</property>
-                    <property name="row-spacing">10</property>
-                    <property name="margin-start">10</property>
-                    <property name="margin-end">10</property>
-                    <property name="margin-top">10</property>
-                    <property name="margin-bottom">10</property>
+                    <property name="column-spacing">10</property> <!-- Espaçamento entre colunas -->
+                    <property name="row-spacing">10</property> <!-- Espaçamento entre linhas -->
+                    <property name="margin-start">10</property> <!-- Margem esquerda -->
+                    <property name="margin-end">10</property> <!-- Margem direita -->
+                    <property name="margin-top">10</property> <!-- Margem superior -->
+                    <property name="margin-bottom">10</property> <!-- Margem inferior -->
                     
+                    <!-- Campo Nome -->
                     <child>
                       <object class="GtkLabel" id="nome_label">
-                        <property name="label">Nome:</property>
-                        <property name="halign">start</property>
-                        <property name="valign">center</property>
+                        <property name="label">Nome:</property> <!-- Texto do rótulo -->
+                        <property name="halign">start</property> <!-- Alinha à esquerda -->
+                        <property name="valign">center</property> <!-- Centraliza verticalmente -->
                         <layout>
-                          <property name="column">0</property>
-                          <property name="row">0</property>
+                          <property name="column">0</property> <!-- Coluna na grade -->
+                          <property name="row">0</property> <!-- Linha na grade -->
                         </layout>
                       </object>
                     </child>
-                    
                     <child>
                       <object class="GtkEntry" id="nome_entry">
-                        <property name="hexpand">true</property>
+                        <property name="hexpand">true</property> <!-- Expande horizontalmente -->
                         <layout>
                           <property name="column">1</property>
                           <property name="row">0</property>
@@ -52,6 +58,7 @@
                       </object>
                     </child>
                     
+                    <!-- Campo CPF -->
                     <child>
                       <object class="GtkLabel" id="CPF_label">
                         <property name="label">CPF:</property>
@@ -63,7 +70,6 @@
                         </layout>
                       </object>
                     </child>
-                    
                     <child>
                       <object class="GtkEntry" id="CPF_entry">
                         <property name="hexpand">true</property>
@@ -74,6 +80,7 @@
                       </object>
                     </child>
 
+                    <!-- Campo Sobrenome -->
                     <child>
                       <object class="GtkLabel" id="Sobrenome_label">
                         <property name="label">Sobrenome:</property>
@@ -85,7 +92,6 @@
                         </layout>
                       </object>
                     </child>
-                    
                     <child>
                       <object class="GtkEntry" id="Sobrenome_entry">
                         <property name="hexpand">true</property>
@@ -96,6 +102,7 @@
                       </object>
                     </child>
 
+                    <!-- Botão para cadastrar usuário -->
                     <child>
                       <object class="GtkButton" id="cadastrar_usuario_btn">
                         <property name="label">Cadastrar Usuário</property>
@@ -108,13 +115,15 @@
             </child>
           </object>
         </child>
+
+        <!-- Botão de voltar (sobreposto no canto superior esquerdo) -->
         <child type="overlay">
           <object class="GtkButton" id="back_button">
-            <property name="icon-name">go-previous-symbolic</property>
-            <property name="halign">start</property>
-            <property name="valign">start</property>
-            <property name="margin-start">10</property>
-            <property name="margin-top">10</property>
+            <property name="icon-name">go-previous-symbolic</property> <!-- Ícone de voltar -->
+            <property name="halign">start</property> <!-- Alinha à esquerda -->
+            <property name="valign">start</property> <!-- Alinha no topo -->
+            <property name="margin-start">10</property> <!-- Margem esquerda -->
+            <property name="margin-top">10</property> <!-- Margem superior -->
           </object>
         </child>
       </object>

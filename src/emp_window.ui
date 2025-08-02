@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <!-- Requisito mínimo da biblioteca GTK versão 4.0 -->
   <requires lib="gtk" version="4.0"/>
 
+  <!-- Janela principal do formulário de empréstimo -->
   <object class="GtkWindow" id="emp_window">
-    <property name="title">Empréstimo</property>
-    <property name="default-width">857</property>
-    <property name="default-height">400</property>
+    <property name="title">Empréstimo</property> <!-- Título da janela -->
+    <property name="default-width">857</property> <!-- Largura padrão -->
+    <property name="default-height">400</property> <!-- Altura padrão -->
     <child>
+      <!-- Container overlay para permitir elementos sobrepostos -->
       <object class="GtkOverlay">
         <child>
+          <!-- Caixa vertical centralizada para o conteúdo -->
           <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <property name="spacing">20</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
+            <property name="orientation">vertical</property> <!-- Orientação vertical -->
+            <property name="spacing">20</property> <!-- Espaço entre widgets -->
+            <property name="halign">center</property> <!-- Centralização horizontal -->
+            <property name="valign">center</property> <!-- Centralização vertical -->
             <child>
+              <!-- Moldura do formulário -->
               <object class="GtkFrame">
-                <property name="label">Cadastro de Empréstimo</property>
+                <property name="label">Cadastro de Empréstimo</property> <!-- Texto do título da moldura -->
                 <style>
-                  <class name="emp-form"/>
+                  <class name="emp-form"/> <!-- Classe CSS personalizada -->
                 </style>
                 <child>
+                  <!-- Grade para organizar rótulos e campos -->
                   <object class="GtkGrid">
-                    <property name="column-spacing">10</property>
-                    <property name="row-spacing">10</property>
-                    <property name="margin-start">10</property>
-                    <property name="margin-end">10</property>
-                    <property name="margin-top">10</property>
-                    <property name="margin-bottom">10</property>
+                    <property name="column-spacing">10</property> <!-- Espaçamento horizontal -->
+                    <property name="row-spacing">10</property> <!-- Espaçamento vertical -->
+                    <property name="margin-start">10</property> <!-- Margem esquerda -->
+                    <property name="margin-end">10</property> <!-- Margem direita -->
+                    <property name="margin-top">10</property> <!-- Margem superior -->
+                    <property name="margin-bottom">10</property> <!-- Margem inferior -->
                     
+                    <!-- Rótulo para data de empréstimo -->
                     <child>
                       <object class="GtkLabel" id="dtEmp_label">
                         <property name="label">Data de Empréstimo:</property>
@@ -41,9 +48,10 @@
                       </object>
                     </child>
                     
+                    <!-- Campo para data de empréstimo -->
                     <child>
                       <object class="GtkEntry" id="dtEmp_entry">
-                        <property name="hexpand">true</property>
+                        <property name="hexpand">true</property> <!-- Expande horizontalmente -->
                         <layout>
                           <property name="column">1</property>
                           <property name="row">0</property>
@@ -52,6 +60,7 @@
                       </object>
                     </child>
                     
+                    <!-- Rótulo para data de devolução -->
                     <child>
                       <object class="GtkLabel" id="dtDev_label">
                         <property name="label">Data de Devolução:</property>
@@ -64,6 +73,7 @@
                       </object>
                     </child>
                     
+                    <!-- Campo para data de devolução -->
                     <child>
                       <object class="GtkEntry" id="dtDev_entry">
                         <property name="hexpand">true</property>
@@ -74,6 +84,7 @@
                       </object>
                     </child>
                     
+                    <!-- Rótulo para ID do livro -->
                     <child>
                       <object class="GtkLabel" id="idlivro_label">
                         <property name="label">ID Livro:</property>
@@ -86,6 +97,7 @@
                       </object>
                     </child>
                     
+                    <!-- Campo para ID do livro -->
                     <child>
                       <object class="GtkEntry" id="idlivro_entry">
                         <property name="hexpand">true</property>
@@ -96,6 +108,7 @@
                       </object>
                     </child>
                     
+                    <!-- Rótulo para ID do usuário -->
                     <child>
                       <object class="GtkLabel" id="iduser_label">
                         <property name="label">ID Usuário:</property>
@@ -108,6 +121,7 @@
                       </object>
                     </child>
                     
+                    <!-- Campo para ID do usuário -->
                     <child>
                       <object class="GtkEntry" id="iduser_entry">
                         <property name="hexpand">true</property>
@@ -118,6 +132,7 @@
                       </object>
                     </child>
 
+                    <!-- Botão para cadastrar empréstimo -->
                     <child>
                       <object class="GtkButton" id="cadastrar_emprestimo_btn">
                         <property name="label">Cadastrar Empréstimo</property>
@@ -130,6 +145,8 @@
             </child>
           </object>
         </child>
+        
+        <!-- Botão de voltar sobreposto no canto superior esquerdo -->
         <child type="overlay">
           <object class="GtkButton" id="back_button">
             <property name="icon-name">go-previous-symbolic</property>
